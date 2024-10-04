@@ -48,6 +48,8 @@ name: 'Terraform'
 on:
   push:
     branches: [ "master" ]
+    paths:
+     - 'Terraform-scripts/*'
   pull_request:
 
 jobs:
