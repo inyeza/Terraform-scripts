@@ -51,6 +51,8 @@ on:
     paths:
      - 'Terraform-scripts/*'
   pull_request:
+permissions:
+ contents: read # required for actions/checkout
 
 jobs:
   terraform:
@@ -74,6 +76,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1  # Change this region if necessary
+          
 
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
