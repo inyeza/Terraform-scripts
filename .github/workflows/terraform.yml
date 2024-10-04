@@ -98,6 +98,6 @@ jobs:
       run: terraform apply -auto-approve -input=false
 
       # Output the VPC ID
-    - name: Output VPC ID
-      run: terraform output vpc_id
+    # - name: Output VPC ID
+    #   run: terraform output vpc_id
       
