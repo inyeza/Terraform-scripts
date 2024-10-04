@@ -48,6 +48,16 @@ name: 'Terraform'
 on:
   push:
     branches: [ "master" ]
+  workflow_dispatch:
+    inputs:
+      action_type:
+        description: 'Choose whether to apply or destroy the Terraform configuration'
+        required: true
+        default: 'apply'
+        type: choice
+        options:
+          - apply
+          - destroy
   pull_request:
 permissions:
  contents: read # required for actions/checkout
@@ -102,9 +112,22 @@ jobs:
 
       # On push to "master", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
-    - name: Terraform Apply
+    #- name: Terraform Apply
      # if: github.ref == 'refs/heads/"master"' && github.event_name == 'push'
-      run: terraform apply -auto-approve 
+     # run: terraform apply -auto-approve 
+
+    # Conditionally run Terraform Apply or Destroy based on user input for workflow_dispatch, and default to Apply on push
+    - name: Terraform Apply or Destroy
+      run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            if [ "${{ github.event.inputs.action_type }}" == "apply" ]; then
+              terraform apply -auto-approve -input=false
+            elif [ "${{ github.event.inputs.action_type }}" == "destroy" ]; then
+              terraform destroy -auto-approve -input=false
+            fi
+          elif [ "${{ github.event_name }}" == "push" ]; then
+            terraform apply -auto-approve -input=false
+          fi
 
       # Output the VPC ID
     # - name: Output VPC ID
