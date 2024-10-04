@@ -48,8 +48,6 @@ name: 'Terraform'
 on:
   push:
     branches: [ "master" ]
-     #paths:
-      #- 'Terraform-scripts/*'
   pull_request:
 permissions:
  contents: read # required for actions/checkout
@@ -63,6 +61,7 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: .
 
     steps:
     # Checkout the repository to the GitHub Actions runner
