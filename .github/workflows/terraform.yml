@@ -126,7 +126,8 @@ jobs:
               terraform destroy -auto-approve -input=false
             fi
           elif [ "${{ github.event_name }}" == "push" ]; then
-            terraform apply -auto-approve -input=false
+            # terraform apply -auto-approve -input=false
+            terraform destroy -auto-approve -input=false
           fi
 
       # Output the VPC ID
